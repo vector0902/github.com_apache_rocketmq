@@ -32,18 +32,27 @@ public class ScheduledMessageProducer {
         DefaultMQProducer producer = new DefaultMQProducer(PRODUCER_GROUP);
 
         // Uncomment the following line while debugging, namesrvAddr should be set to your local address
-//        producer.setNamesrvAddr(DEFAULT_NAMESRVADDR);
+        producer.setNamesrvAddr(DEFAULT_NAMESRVADDR);
 
         // Launch producer
         producer.start();
-        int totalMessagesToSend = 100;
+        int totalMessagesToSend = 10;
         for (int i = 0; i < totalMessagesToSend; i++) {
             Message message = new Message(TOPIC, ("Hello scheduled message " + i).getBytes(StandardCharsets.UTF_8));
-            // This message will be delivered to consumer 10 seconds later.
-            message.setDelayTimeLevel(3);
+
+            // This message will be delivered to consumer some seconds later.
+            message.setDelayTimeLevel(2);
+            /*
+            see
+            org.apache.rocketmq.store.config.MessageStoreConfig.messageDelayLevel
+    private String messageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h";
+             */
+
             // Send the message
             SendResult result = producer.send(message);
-            System.out.print(result);
+            System.out.println(result);
+
+//            Thread.sleep(100);
         }
 
         // Shutdown producer after use.

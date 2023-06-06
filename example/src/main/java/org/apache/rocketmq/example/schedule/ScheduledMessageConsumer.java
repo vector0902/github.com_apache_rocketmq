@@ -32,7 +32,7 @@ public class ScheduledMessageConsumer {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
 
         // Uncomment the following line while debugging, namesrvAddr should be set to your local address
-//        consumer.setNamesrvAddr(DEFAULT_NAMESRVADDR);
+        consumer.setNamesrvAddr(DEFAULT_NAMESRVADDR);
 
         // Subscribe topics
         consumer.subscribe(TOPIC, "*");
@@ -41,7 +41,9 @@ public class ScheduledMessageConsumer {
             for (MessageExt message : messages) {
                 // Print approximate delay time period
                 System.out.printf("Receive message[msgId=%s %d  ms later]\n", message.getMsgId(),
-                    System.currentTimeMillis() - message.getStoreTimestamp());
+//                    System.currentTimeMillis() - message.getStoreTimestamp()
+                        System.currentTimeMillis() - message.getBornTimestamp()
+                );
             }
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
