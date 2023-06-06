@@ -22,6 +22,7 @@ import org.apache.rocketmq.client.producer.MessageQueueSelector;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageQueue;
+import org.apache.rocketmq.example.quickstart.Consumer;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public class Producer {
     public static void main(String[] args) throws MQClientException {
         try {
             DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+
+            producer.setNamesrvAddr(Consumer.DEFAULT_NAMESRVADDR);
+
             producer.start();
 
             String[] tags = new String[] {"TagA", "TagB", "TagC", "TagD", "TagE"};
@@ -48,6 +52,8 @@ public class Producer {
                 }, orderId);
 
                 System.out.printf("%s%n", sendResult);
+
+                Thread.sleep(1000);
             }
 
             producer.shutdown();
