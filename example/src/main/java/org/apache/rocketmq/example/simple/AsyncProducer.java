@@ -31,6 +31,9 @@ public class AsyncProducer {
         String[] args) throws MQClientException, InterruptedException, UnsupportedEncodingException {
 
         DefaultMQProducer producer = new DefaultMQProducer("Jodie_Daily_test");
+
+        producer.setNamesrvAddr(Producer.DEFAULT_NAMESRVADDR);
+
         producer.start();
         // suggest to on enableBackpressureForAsyncMode in heavy traffic, default is false
         producer.setEnableBackpressureForAsyncMode(true);
@@ -41,7 +44,9 @@ public class AsyncProducer {
         for (int i = 0; i < messageCount; i++) {
             try {
                 final int index = i;
-                Message msg = new Message("Jodie_topic_1023",
+                Message msg = new Message(
+                        Producer.TOPIC,
+//                        "Jodie_topic_1023",
                     "TagA",
                     "OrderID188",
                     "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
