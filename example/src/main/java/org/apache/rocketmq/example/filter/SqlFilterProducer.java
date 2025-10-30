@@ -20,6 +20,7 @@ package org.apache.rocketmq.example.filter;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.example.Common;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
 public class SqlFilterProducer {
@@ -28,14 +29,16 @@ public class SqlFilterProducer {
 
         DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
 
+        producer.setNamesrvAddr(Common.DEFAULT_NAMESRVADDR);
+
         producer.start();
 
-        String[] tags = new String[] {"TagA", "TagB", "TagC"};
+        String[] tags = new String[]{"TagA", "TagB", "TagC"};
 
         for (int i = 0; i < 10; i++) {
             Message msg = new Message("SqlFilterTest",
-                tags[i % tags.length],
-                ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
+                    tags[i % tags.length],
+                    ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
             msg.putUserProperty("a", String.valueOf(i));
 

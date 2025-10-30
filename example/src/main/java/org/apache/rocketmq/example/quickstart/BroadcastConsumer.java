@@ -26,7 +26,7 @@ import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
 /**
  * This example shows how to subscribe and consume messages using providing {@link DefaultMQPushConsumer}.
  */
-public class Consumer {
+public class BroadcastConsumer {
 
     public static final String CONSUMER_GROUP = "please_rename_unique_group_name_4";
     public static final String DEFAULT_NAMESRVADDR = "127.0.0.1:9876";
@@ -71,7 +71,7 @@ public class Consumer {
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
 
-//        consumer.setMessageModel(MessageModel.CLUSTERING); // this is even the default value
+        consumer.setMessageModel(MessageModel.BROADCASTING);
 
         /*
          *  Launch the consumer instance.
